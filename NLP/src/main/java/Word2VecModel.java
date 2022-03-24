@@ -28,7 +28,6 @@ public class Word2VecModel {
     public static void main(String[] args) throws Exception {
 
         String filePath = new ClassPathResource("cleaned-filtered-dumping-wiki.txt").getFile().getPath();
-//        File file = new ClassPathResource("Dataset/cleaned-filtered-dumping-wiki.txt").getFile();
 
         System.out.println("Load & Vectorize Sentences....");
         // Strip white space before and after for each line
