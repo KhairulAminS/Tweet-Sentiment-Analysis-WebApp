@@ -9,6 +9,7 @@ import org.deeplearning4j.text.tokenization.tokenizerfactory.TokenizerFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.Collection;
 
@@ -16,13 +17,13 @@ public class Word2VecUptraining {
 
     private static Logger log = LoggerFactory.getLogger(Word2VecUptraining.class);
 
-    static String word = "malam";
+    static String word = "benci";
 
     public static void main(String[] args) throws FileNotFoundException {
 
-        String filePath = "C:/Users/Khairul Amin/IdeaProjects/NLP/src/main/resources/TestVocab/ms-wiki.txt";
+        String filePath = "C:\\Users\\Khairul Amin\\IdeaProjects\\Tweet Sentiment Analysis WebApp\\Tweet-Sentiment-Analysis-WebApp\\NLP\\src\\main\\resources\\Dataset\\dumping-instagram.txt";
 
-        Word2Vec word2Vec = WordVectorSerializer.readWord2VecModel("word2vec_twitter.txt");
+        Word2Vec word2Vec = WordVectorSerializer.readWord2VecModel("word2vec_ms_wiki.vector");
 
         SentenceIterator iterator = new BasicLineIterator(filePath);
         TokenizerFactory tokenizerFactory = new DefaultTokenizerFactory();
@@ -31,9 +32,9 @@ public class Word2VecUptraining {
         word2Vec.setTokenizerFactory(tokenizerFactory);
         word2Vec.setSentenceIterator(iterator);
 
-        log.info("Word2vec uptraining...");
-
-        word2Vec.fit();
+//        log.info("Word2vec uptraining...");
+//
+//        word2Vec.fit();
 
         Collection<String> list = word2Vec.wordsNearestSum(word, 10);
         log.info("Closest words to " + word + " on 2nd run: " + list);
