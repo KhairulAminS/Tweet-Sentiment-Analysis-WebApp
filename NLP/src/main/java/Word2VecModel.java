@@ -1,11 +1,14 @@
+import org.deeplearning4j.models.embeddings.WeightLookupTable;
+import org.deeplearning4j.models.embeddings.inmemory.InMemoryLookupTable;
 import org.deeplearning4j.models.embeddings.loader.WordVectorSerializer;
 import org.deeplearning4j.models.word2vec.Word2Vec;
-import org.deeplearning4j.text.sentenceiterator.BasicLineIterator;
-import org.deeplearning4j.text.sentenceiterator.FileSentenceIterator;
+import org.deeplearning4j.models.word2vec.wordstore.inmemory.InMemoryLookupCache;
+import org.deeplearning4j.nlp.uima.sentenceiterator.UimaSentenceIterator;
 import org.deeplearning4j.text.sentenceiterator.SentenceIterator;
 import org.deeplearning4j.text.tokenization.tokenizer.preprocessor.CommonPreprocessor;
 import org.deeplearning4j.text.tokenization.tokenizerfactory.DefaultTokenizerFactory;
 import org.deeplearning4j.text.tokenization.tokenizerfactory.TokenizerFactory;
+import org.nd4j.common.io.ClassPathResource;
 
 import java.io.File;
 import java.util.Collection;
@@ -14,31 +17,18 @@ import java.util.Collection;
 public class Word2VecModel {
 
 
-    /**
-     * Created by agibsonccc on 10/9/14.
-     *
-     * Neural net that processes text into wordvectors. See below url for an in-depth explanation.
-     * https://deeplearning4j.org/word2vec.html
-     */
-
     static String word = "hari";
 
     public static void main(String[] args) throws Exception {
 
-        // Gets Path to Text file
-        File filePath = new File("C:/Users/Khairul Amin/IdeaProjects/NLP/src/main/resources/TestVocab/ms-wiki.txt");
+        String filePath = new ClassPathResource("ms-wiki.txt").getFile().getAbsolutePath();
 
         System.out.println("Load & Vectorize Sentences....");
         // Strip white space before and after for each line
-        SentenceIterator iter = new UimaSentenceIterator(filePath);
+        SentenceIterator iter = UimaSentenceIterator.createWithPath(filePath);
         // Split on white spaces in the line to get words
         TokenizerFactory t = new DefaultTokenizerFactory();
 
-        /*
-            CommonPreprocessor will apply the following regex to each token: [\d\.:,"'\(\)\[\]|/?!;]+
-            So, effectively all numbers, punctuation symbols and some special symbols are stripped off.
-            Additionally it forces lower case for all tokens.
-         */
         t.setTokenPreProcessor(new CommonPreprocessor());
 
         System.out.println("Building model....");
@@ -53,7 +43,7 @@ public class Word2VecModel {
                 .tokenizerFactory(t)
                 .build();
 
-        System.out.println("Fitting Word2Vec model....");
+        System.out.println("Fitting model....");
         vec.fit();
 
         System.out.println("Saving model....");
