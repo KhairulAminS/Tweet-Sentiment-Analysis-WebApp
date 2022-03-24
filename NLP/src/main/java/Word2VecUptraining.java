@@ -22,7 +22,7 @@ public class Word2VecUptraining {
     public static void main(String[] args) throws FileNotFoundException {
 
 
-        String filePath = "C:\\Users\\Khairul Amin\\IdeaProjects\\Tweet Sentiment Analysis WebApp\\Tweet-Sentiment-Analysis-WebApp\\NLP\\src\\main\\resources\\Dataset\\dumping-instagram.txt";
+        String filePath = "PATH\\TO\\YOUR\\DATASET\\dumping-instagram.txt";
 
 
         Word2Vec word2Vec = WordVectorSerializer.readWord2VecModel("word2vec_ms_wiki.vector");
