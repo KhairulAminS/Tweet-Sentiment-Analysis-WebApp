@@ -20,7 +20,7 @@ public class Word2VecUptraining {
 
     public static void main(String[] args) throws FileNotFoundException {
 
-        String filePath = "C:/Users/Khairul Amin/IdeaProjects/NLP/src/main/resources/TestVocab/ms-wiki.txt";
+         String filePath = new ClassPathResource("ms-wiki.txt").getFile().getAbsolutePath();
 
         Word2Vec word2Vec = WordVectorSerializer.readWord2VecModel("word2vec_twitter.txt");
 
