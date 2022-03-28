@@ -24,9 +24,9 @@ public class FileReader {
             }
 
 //          print text output
-            int num = 700;
-            System.out.println(tweets.get(num).getText());
-            System.out.println(tweets.get(num).getSentiment());
+//            int num = 700;
+//            System.out.println(tweets.get(num).getText());
+//            System.out.println(tweets.get(num).getSentiment());
         }
         catch (IOException ioe) {
             ioe.printStackTrace();
