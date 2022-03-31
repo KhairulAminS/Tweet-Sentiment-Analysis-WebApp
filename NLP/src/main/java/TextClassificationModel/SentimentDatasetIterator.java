@@ -33,7 +33,7 @@ public class SentimentDatasetIterator implements DataSetIterator {
     List<String> tweetText = new ArrayList<>(tweets.size());
     int[] labelArr = new int[tweets.size()];
 
-    public SentimentDatasetIterator(String dataDirectory, WordVectors wordVectors, int batchSize, int truncateLength) throws IOException {
+    public SentimentDatasetIterator(WordVectors wordVectors, int batchSize, int truncateLength) throws IOException {
         this.batchSize = batchSize;
         this.vectorSize = wordVectors.getWordVector(wordVectors.vocab().wordAtIndex(0)).length;
 

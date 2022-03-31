@@ -32,17 +32,17 @@
             <version>1.0.0-M1.1</version>
         </dependency>
 
-<!--        <dependency>-->
-<!--            <groupId>org.nd4j</groupId>-->
-<!--            <artifactId>nd4j-native</artifactId>-->
-<!--            <version>1.0.0-M1.1</version>-->
-<!--        </dependency>-->
-
         <dependency>
             <groupId>org.nd4j</groupId>
-            <artifactId>nd4j-cuda-11.2-platform</artifactId>
+            <artifactId>nd4j-native</artifactId>
             <version>1.0.0-M1.1</version>
         </dependency>
+
+<!--        <dependency>-->
+<!--            <groupId>org.nd4j</groupId>-->
+<!--            <artifactId>nd4j-cuda-11.2-platform</artifactId>-->
+<!--            <version>1.0.0-M1.1</version>-->
+<!--        </dependency>-->
 
         <dependency>
             <groupId>org.bytedeco</groupId>
@@ -55,16 +55,7 @@
             <artifactId>logback-classic</artifactId>
             <version>1.2.11</version>
         </dependency>
-        <dependency>
-            <groupId>org.deeplearning4j</groupId>
-            <artifactId>deeplearning4j-vertx</artifactId>
-            <version>1.0.0-beta7</version>
-        </dependency>
-        <dependency>
-            <groupId>org.deeplearning4j</groupId>
-            <artifactId>deeplearning4j-nlp-uima</artifactId>
-            <version>1.0.0-beta7</version>
-        </dependency>
+
         <dependency>
             <groupId>org.deeplearning4j</groupId>
             <artifactId>deeplearning4j-vertx</artifactId>
@@ -83,10 +74,9 @@
             <scope>test</scope>
         </dependency>
         <dependency>
-            <groupId>org.datavec</groupId>
-            <artifactId>datavec-local</artifactId>
-            <version>1.0.0-M1.1</version>
-            <scope>compile</scope>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>1.18.16</version>
         </dependency>
 
 
@@ -97,10 +87,10 @@
 
     <properties>
         <!-- Change the nd4j.backend property to nd4j-cuda-*.*-platform example: nd4j-cuda-11.2-platform to use CUDA GPUs -->
-<!--        <nd4j.backend>nd4j-native-platform</nd4j.backend>-->
-        <nd4j.backend>nd4j-cuda-11.2-platform</nd4j.backend>
+        <nd4j.backend>nd4j-native-platform</nd4j.backend>
+<!--        <nd4j.backend>nd4j-cuda-11.2-platform</nd4j.backend>-->
         <!-- Change the dl4j.cuda.backend property to deeplearning4j-cuda-*.* example: deeplearning4j-cuda-11.2 to use CuDNN -->
-        <dl4j.cuda.backend>deeplearning4j-cuda-11.2</dl4j.cuda.backend>
+<!--        <dl4j.cuda.backend>deeplearning4j-cuda-11.2</dl4j.cuda.backend>-->
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <shadedClassifier>bin</shadedClassifier>
 

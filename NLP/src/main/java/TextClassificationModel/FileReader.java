@@ -1,5 +1,8 @@
 package TextClassificationModel;
 
+import DatasetPreProcess.cleanText;
+import jdk.jfr.DataAmount;
+
 import java.io.BufferedReader;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -38,8 +41,10 @@ public class FileReader {
         }
     }
 
-    private static Tweet createTweet(String[] metadata){
+    private static Tweet createTweet(String[] metadata) throws IOException {
         String text = metadata[0];
+        text = cleanText.cleanDataset(text);
+
         int sentiment = 0;
 
         if (Objects.equals(metadata[2], "Positive")){
@@ -93,6 +98,7 @@ public class FileReader {
         }
     }
 }
+
 
 class Tweet {
     private final String text;
