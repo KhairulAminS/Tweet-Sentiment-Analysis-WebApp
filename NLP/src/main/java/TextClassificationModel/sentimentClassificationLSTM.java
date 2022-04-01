@@ -36,7 +36,7 @@ import java.io.IOException;
 
 public class sentimentClassificationLSTM {
 
-    static String wordVectorsPath = new File("word2vec_ms_wiki.vector").getAbsolutePath();
+    static String wordVectorsPath = new File("word2vec.vector").getAbsolutePath();
 
     static int batchSize = 64;     //Number of examples in each minibatch
     static int vectorSize = 300;   //Size of the word vectors. 300 in the Google News model
@@ -45,7 +45,7 @@ public class sentimentClassificationLSTM {
     static final int seed = 0;     //Seed for reproducibility
 
     public static void main(String[] args) throws IOException, InterruptedException {
-        File file = new ClassPathResource("data.csv").getFile();
+        File file = new ClassPathResource("Dataset/data.csv").getFile();
         FileReader.csvToString(file.getPath());
 
         Nd4j.getMemoryManager().setAutoGcWindow(10000);
@@ -105,12 +105,13 @@ public class sentimentClassificationLSTM {
         return new NeuralNetConfiguration.Builder()
                 .seed(seed)
                 .updater(new Adam(1e-3))
-                .l2(0.05)
+                .l2(0.1)
                 .weightInit(WeightInit.XAVIER)
                 .list()
                 .layer(new LSTM.Builder()
                         .nIn(vectorSize)
                         .nOut(150)
+                        .dropOut(0.3)
                         .activation(Activation.TANH)
                         .build())
                 .layer(new LSTM.Builder()

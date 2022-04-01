@@ -6,16 +6,12 @@ import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
-import org.apache.http.entity.StringEntity;
 import org.json.JSONObject;
-
-import javax.sound.midi.Soundbank;
 
 public class TweetStream {
 
-    private static String bearerToken = "INSERT BEARER TOKEN HERE";
+    private static String bearerToken = "AAAAAAAAAAAAAAAAAAAAAG4kaQEAAAAA5btWp9vwZ4DZvWh%2FZCRRsvd3jxc%3DUG0FNQ6zBRoQyBFzc2pjHWNHWg09UDJI0KXErgpFjXoOyuNwrY";
     static String url = "https://api.twitter.com/2/tweets/search/stream?&expansions=author_id";
     static String ruleURL = "https://api.twitter.com/2/tweets/search/stream/rules";
     static String sampleURL = "https://api.twitter.com/2/tweets/sample/stream?&expansions=author_id";
@@ -23,8 +19,8 @@ public class TweetStream {
     public static void main(String[] args) throws IOException, InterruptedException {
 
         URL obj = new URL(url);
-//        String data = "{\n  \"add\": [\n {\"value\": \"cats -is:retweet -has:links\"}, {\"value\": \"cars -is:retweet -has:links\" }\n ]\n}";
-        String data = "{\n  \"add\": [\n  {\"value\": \"ukraine -is:retweet -has:links lang:en\" } ]\n}";
+        String data = "{\n  \"add\": [\n {\"value\": \"elonmusk\"}, {\"value\": \"cars  -has:links\" }\n ]\n}";
+//        String data = "{\n  \"add\": [\n  {\"value\": \"ukraine -is:retweet -has:links lang:en\" } ]\n}";
         deleteRules(new URL(ruleURL));
         postHTTP(new URL(ruleURL), data);
         getHTTP(new URL(ruleURL));
@@ -38,14 +34,12 @@ public class TweetStream {
 
         HttpURLConnection con = (HttpURLConnection) url.openConnection();
         con.setRequestMethod("GET");
-        con.setRequestProperty("Authorization", "Bearer " + bearerToken.toString());
+        con.setRequestProperty("Authorization", "Bearer " + bearerToken);
         System.out.println(con.getResponseCode() + " " + con.getResponseMessage());
 
         BufferedReader reader = new BufferedReader(new InputStreamReader(con.getInputStream()));
         String output;
         String data = null;
-
-        StringBuffer response = new StringBuffer();
 
         while ((output = reader.readLine()) != null) {
             existingRules.add(output);
@@ -68,7 +62,6 @@ public class TweetStream {
 
         BufferedReader reader = new BufferedReader(new InputStreamReader(con.getInputStream()));
         String output;
-        StringBuffer response = new StringBuffer();
 
         while ((output = reader.readLine()) != null) {
             System.out.println(output);
@@ -111,6 +104,7 @@ public class TweetStream {
         System.out.println(ids);
         System.out.println(json);
         deleteJSON.put("delete", new JSONObject().put("ids", ids));
+        System.out.println(deleteJSON);
 
         return deleteJSON.toString();
     }

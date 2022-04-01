@@ -10,14 +10,7 @@
             </Attribute>
           </value>
         </entry>
-        <entry key="\target\classes\data.csv">
-          <value>
-            <Attribute>
-              <option name="separator" value="&#9;" />
-            </Attribute>
-          </value>
-        </entry>
-        <entry key="\target\data.csv">
+        <entry key="\target\classes\Dataset\data.csv">
           <value>
             <Attribute>
               <option name="separator" value="&#9;" />

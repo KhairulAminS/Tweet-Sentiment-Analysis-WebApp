@@ -48,7 +48,7 @@ import java.util.*;
 import static TextClassificationModel.FileReader.tweets;
 
 public class sentimentClassificationCNN {
-    static String wordVectorsPath = new File("word2vec_ms_wiki.vector").getAbsolutePath();
+    static String wordVectorsPath = new File("word2vec.vector").getAbsolutePath();
 
     static int batchSize = 64;     //Number of examples in each minibatch
     static int vectorSize = 300;   //Size of the word vectors. 300 in the Google News model
@@ -61,7 +61,7 @@ public class sentimentClassificationCNN {
     static Random rng = new Random(seed);
 
     public static void main(String[] args) throws IOException {
-        File file = new ClassPathResource("data.csv").getFile();
+        File file = new ClassPathResource("Dataset/data.csv").getFile();
         FileReader.csvToString(file.getPath());
 
         Nd4j.getMemoryManager().setAutoGcWindow(10000);
@@ -115,7 +115,7 @@ public class sentimentClassificationCNN {
                 .activation(Activation.LEAKYRELU)
                 .updater(new Adam(1e-3))
                 .convolutionMode(ConvolutionMode.Same)      //This is important so we can 'stack' the results later
-                .l2(0.05)
+                .l2(0.001)
                 .graphBuilder()
                 .addInputs("input")
                 .addLayer("cnn3", new ConvolutionLayer.Builder()
@@ -128,12 +128,17 @@ public class sentimentClassificationCNN {
                         .stride(1, vectorSize)
                         .nOut(cnnLayerFeatureMaps)
                         .build(), "input")
+                .addLayer("cnn5", new ConvolutionLayer.Builder()
+                        .kernelSize(5, vectorSize)
+                        .stride(1, vectorSize)
+                        .nOut(cnnLayerFeatureMaps)
+                        .build(), "input")
                 //MergeVertex performs depth concatenation on activations: 3x[minibatch,100,length,300] to 1x[minibatch,300,length,300]
-                .addVertex("merge", new MergeVertex(), "cnn3", "cnn4")
+                .addVertex("merge", new MergeVertex(), "cnn3", "cnn4", "cnn5")
                 //Global pooling: pool over x/y locations (dimensions 2 and 3): Activations [minibatch,300,length,300] to [minibatch, 300]
                 .addLayer("globalPool", new GlobalPoolingLayer.Builder()
                         .poolingType(globalPoolingType)
-                        .dropOut(0.5)
+                        .dropOut(0.3)
                         .build(), "merge")
                 .addLayer("out", new OutputLayer.Builder()
                         .lossFunction(LossFunctions.LossFunction.MCXENT)
