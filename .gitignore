@@ -32,3 +32,4 @@ NLP/word2vec_ms_wiki.vector
 Tweet Streams/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst
 Tweet Streams/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst
 Tweet Streams/target/maven-status/maven-compiler-plugin/testCompile/default-testCompile/inputFiles.lst
+webapp/src/main/resources/Models/word2vec.vector

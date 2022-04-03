@@ -99,6 +99,8 @@ public class sentimentClassificationLSTM {
         System.out.println(".....Saving model.....");
         ModelSerializer.writeModel(model, "LSTM model.zip", true);
         System.out.println(".....Model saved.....");
+
+
     }
 
     private static MultiLayerConfiguration config(){

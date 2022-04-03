@@ -1,7 +1,6 @@
 package TextClassificationModel;
 
 import DatasetPreProcess.cleanText;
-import jdk.jfr.DataAmount;
 
 import java.io.BufferedReader;
 import java.io.FileWriter;
