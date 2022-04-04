@@ -3,7 +3,6 @@ package com.example.application.views.sentimentanalysis;
 import org.nd4j.common.io.ClassPathResource;
 
 import java.io.BufferedReader;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;

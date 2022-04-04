@@ -1,7 +1,5 @@
 package tweets;
 
-
-import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.io.*;
@@ -9,13 +7,12 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 
 public class getTweets {
 
-    private static String bearerToken = "AAAAAAAAAAAAAAAAAAAAAG4kaQEAAAAA5btWp9vwZ4DZvWh%2FZCRRsvd3jxc%3DUG0FNQ6zBRoQyBFzc2pjHWNHWg09UDJI0KXErgpFjXoOyuNwrY";
+    private static String bearerToken = "YOUR BEARER TOKEN";
     static String url = "https://api.twitter.com/2/tweets/search/stream?tweet.fields=created_at,text&expansions=author_id&&user.fields=id,name,username,profile_image_url";
     static String ruleURL = "https://api.twitter.com/2/tweets/search/stream/rules";
 //    static String sampleURL = "https://api.twitter.com/2/tweets/sample/stream?&expansions=author_id";
