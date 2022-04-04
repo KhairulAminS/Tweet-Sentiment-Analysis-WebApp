@@ -1,13 +1,10 @@
 package Inference;
-;
-import org.deeplearning4j.models.embeddings.loader.WordVectorSerializer;
+
 import org.deeplearning4j.models.word2vec.Word2Vec;
 import org.deeplearning4j.nn.multilayer.MultiLayerNetwork;
 import org.deeplearning4j.text.tokenization.tokenizer.preprocessor.CommonPreprocessor;
 import org.deeplearning4j.text.tokenization.tokenizerfactory.DefaultTokenizerFactory;
 import org.deeplearning4j.text.tokenization.tokenizerfactory.TokenizerFactory;
-import org.deeplearning4j.util.ModelSerializer;
-import org.nd4j.common.io.ClassPathResource;
 import org.nd4j.linalg.api.ndarray.INDArray;
 import org.nd4j.linalg.factory.Nd4j;
 import org.nd4j.linalg.indexing.INDArrayIndex;
@@ -18,44 +15,38 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.example.application.views.MainLayout.model;
+import static com.example.application.views.MainLayout.word2Vec;
 import static com.example.application.views.sentimentanalysis.cleanText.cleanTweetText;
 import static org.nd4j.linalg.factory.Nd4j.argMax;
 
 public class getSentiment {
 
     static String text;
-    static boolean hasInitialized = false;
     static TokenizerFactory tokenizerFactory;
-    static Word2Vec word2Vec = null;
-    static MultiLayerNetwork model = null;
 
 
     // For testing purposes
     public static void main(String[] args) throws IOException {
-        String prediction = getTweetsSentiment("aku boleh berpura-pura tersenyum tapi aku tak reti nk berpura-pura bahagia");
+        String prediction = getTweetsSentiment("aku boleh berpura-pura tersenyum tapi aku tak reti nk berpura-pura bahagia", model, word2Vec);
         System.out.println(prediction);
     }
 
-    public static String getTweetsSentiment(String tweet) throws IOException {
+    public static String getTweetsSentiment(String tweet, MultiLayerNetwork model, Word2Vec word2Vec) throws IOException {
         text = tweet;
         String sentiment;
 
-        if (!hasInitialized) {
-            model = ModelSerializer.restoreMultiLayerNetwork(new ClassPathResource("Models/LSTM model.zip").getFile());
-            word2Vec = WordVectorSerializer.readWord2VecModel(new ClassPathResource("Models/word2vec.vector").getFile().getPath());
-            hasInitialized = true;
-        }
 
         String data = cleanTweetText(text);
 
-        System.out.println(data);
+//        System.out.println(data);
 
-        INDArray features = loadFeaturesFromString(data);
+        INDArray features = loadFeaturesFromString(data, word2Vec);
 
 
-        System.out.println(model.summary());
-
-        System.out.println(features);
+//        System.out.println(model.summary());
+//
+//        System.out.println(features);
 
         INDArray output = model.output(features);
 
@@ -79,7 +70,7 @@ public class getSentiment {
         return sentiment;
     }
 
-    private static INDArray loadFeaturesFromString(String reviewContents){
+    private static INDArray loadFeaturesFromString(String reviewContents, Word2Vec word2Vec){
         tokenizerFactory = new DefaultTokenizerFactory();
         tokenizerFactory.setTokenPreProcessor(new CommonPreprocessor());
         List<String> tokens = tokenizerFactory.create(reviewContents).getTokens();

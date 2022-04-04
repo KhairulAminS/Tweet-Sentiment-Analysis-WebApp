@@ -13,34 +13,46 @@ import tweets.Tweet;
 import java.io.IOException;
 
 import static Inference.getSentiment.getTweetsSentiment;
-import static tweets.getTweets.tweets;
+import static com.example.application.views.MainLayout.*;
+import static tweets.getTweets.*;
+import static tweets.getTweets.getStream;
 
 @PageTitle("Sentiment Analysis")
 @Route(value = "sentiment")
 @RouteAlias(value = "sentiment")
 public class SentimentAnalysisView extends Div implements AfterNavigationObserver {
 
-    Grid<tweets.Tweet> grid = new Grid<>();
+    Grid<Tweet> grid = new Grid<>();
+    static String topics;
+    static String[] allTopics;
 
-    public SentimentAnalysisView() {
+    public SentimentAnalysisView() throws IOException, InterruptedException {
         addClassName("main-view");
         setSizeFull();
         grid.setHeight("100%");
         grid.addThemeVariants(GridVariant.LUMO_NO_BORDER, GridVariant.LUMO_NO_ROW_BORDERS);
 
-        grid.addComponentColumn(tweet -> {
+        setupStream();
+
+        getStream();
+
+        grid.addColumn(tweets -> {
             try {
-                return createCard((tweets.Tweet) tweets, getTweetsSentiment(((tweets.Tweet) tweets).getText()));
+                return createCard(tweets);
             } catch (IOException e) {
                 e.printStackTrace();
-                return null;
             }
+            return null;
         });
+
         add(grid);
     }
 
-    private HorizontalLayout createCard(Tweet tweet, String sentiment) {
+    private HorizontalLayout createCard(Tweet tweet) throws IOException {
         HorizontalLayout card = new HorizontalLayout();
+
+        String sentiment = getTweetsSentiment(tweet.getText(), model, word2Vec);
+
         if(sentiment.equals("Positive")){
             card.addClassName("positive");
         } else if (sentiment.equals("Negative")){
@@ -48,7 +60,7 @@ public class SentimentAnalysisView extends Div implements AfterNavigationObserve
         } else{
             card.addClassName("neutral");
         }
-//            card.addClassName("card");
+
         card.setSpacing(false);
         card.getThemeList().add("spacing-s");
 
@@ -83,7 +95,24 @@ public class SentimentAnalysisView extends Div implements AfterNavigationObserve
 
     @Override
     public void afterNavigation(AfterNavigationEvent event) {
+        System.out.println("after navigation");
         grid.setItems(tweets);
+    }
+
+    private void setupStream() throws IOException {
+        topics = searchbar.getValue();
+        allTopics = getSearchTopics(topics);
+        for(String s:allTopics){
+            setRules(s);
+        }
+        System.out.println(":::::: Posting Rules ::::::");
+        postRules();
+        System.out.println(":::::: New Rules Posted ::::::");
+        System.out.println(":::::: Start tweet stream ::::::");
+    }
+
+    private String[] getSearchTopics(String topics){
+        return topics.split(",",0);
     }
 
 }

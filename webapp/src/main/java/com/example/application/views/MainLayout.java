@@ -1,19 +1,20 @@
 package com.example.application.views;
 
-import com.vaadin.flow.component.applayout.AppLayout;
+
+import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.button.Button;
-import com.vaadin.flow.component.button.ButtonVariant;
-import com.vaadin.flow.component.dependency.CssImport;
 import com.vaadin.flow.component.html.*;
-import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.TextField;
-import com.vaadin.flow.component.textfield.TextFieldVariant;
 import com.vaadin.flow.router.*;
-import tweets.getTweets;
+import com.vaadin.flow.server.StreamResource;
+import org.deeplearning4j.models.embeddings.loader.WordVectorSerializer;
+import org.deeplearning4j.models.word2vec.Word2Vec;
+import org.deeplearning4j.nn.multilayer.MultiLayerNetwork;
+import org.deeplearning4j.util.ModelSerializer;
+import org.nd4j.common.io.ClassPathResource;
 
 import java.io.IOException;
-import java.util.Arrays;
 
 import static tweets.getTweets.*;
 
@@ -24,15 +25,19 @@ import static tweets.getTweets.*;
 
 @PageTitle("main")
 @Route(value = "main")
-@RouteAlias(value = "main")
-//@CssImport(value = "./webapp/main-layout.css", themeFor = "button-64")
+@RouteAlias(value = "")
 public class MainLayout extends VerticalLayout {
 
-    static String topics;
-    static String[] allTopics;
-    static TextField searchbar = new TextField();
+    public static TextField searchbar = new TextField();
 
-    public MainLayout() {
+    public static MultiLayerNetwork model;
+    public static Word2Vec word2Vec;
+
+    public MainLayout() throws IOException {
+
+        model = ModelSerializer.restoreMultiLayerNetwork(new ClassPathResource("Models/LSTM model.zip").getFile());
+        word2Vec = WordVectorSerializer.readWord2VecModel(new ClassPathResource("Models/word2vec.vector").getFile().getPath());
+
 
         Span header = new Span("Twitter Sentiment Analysis");
         header.setClassName("view-title");
@@ -43,32 +48,12 @@ public class MainLayout extends VerticalLayout {
 
         Button searchButton = new Button("Search");
         searchButton.addClassName("button");
-        searchButton.addClickListener(buttonClickEvent -> {
-            try {
-                startStream();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        });
-
+        searchButton.addClickListener(buttonClickEvent -> UI.getCurrent().navigate("sentiment"));
 
         setSpacing(true);
         setSizeFull();
         setPadding(true);
         setDefaultHorizontalComponentAlignment(Alignment.CENTER);
         add(header, searchbar, searchButton);
-    }
-
-    private void startStream() throws IOException {
-        topics = searchbar.getValue();
-        allTopics = getSearchTopics(topics);
-        for(String s:allTopics){
-            setRules(s);
-        }
-        postRules();
-    }
-
-    private String[] getSearchTopics(String topics){
-        return topics.split(",",0);
     }
 }

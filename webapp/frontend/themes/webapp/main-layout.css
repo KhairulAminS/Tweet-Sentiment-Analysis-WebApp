@@ -55,9 +55,13 @@
 }
 
 .view-title {
-  margin-top: 200px;
+  margin-top: 250px;
   font-size: 50px;
   font-weight: bold;
+}
+
+.view-image {
+  margin-top: 100px;
 }
 
 .view-header {
